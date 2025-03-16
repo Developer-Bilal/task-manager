@@ -1,14 +1,21 @@
 import express from "express";
+import userRouter from "./routes/user.route.js";
+
+import cors from "cors";
 import { configDotenv } from "dotenv";
 configDotenv();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// middlewares
+app.use(express.json());
+app.use(cors());
 
+// routes
+app.use("/users", userRouter);
+
+// Server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
