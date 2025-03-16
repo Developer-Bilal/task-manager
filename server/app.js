@@ -1,5 +1,6 @@
 import express from "express";
 import userRouter from "./routes/user.route.js";
+import taskRouter from "./routes/task.route.js";
 
 import cors from "cors";
 import { configDotenv } from "dotenv";
@@ -14,6 +15,7 @@ app.use(cors());
 
 // routes
 app.use("/users", userRouter);
+app.use("/tasks", taskRouter);
 
 // Server
 app.listen(port, () => {
