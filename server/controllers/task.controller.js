@@ -20,7 +20,11 @@ export const createTask = async (req, res) => {
       data: {
         text,
         status,
-        ownerId,
+        owner: {
+          connect: {
+            id: ownerId,
+          },
+        },
       },
     });
     res.status(200).json({ message: "Created Successfully", task });
@@ -42,7 +46,11 @@ export const updateTask = async (req, res) => {
       data: {
         text,
         status,
-        ownerId,
+        owner: {
+          connect: {
+            id: ownerId,
+          },
+        },
       },
     });
     res.status(200).json({ message: "Updated Successfully", task });
