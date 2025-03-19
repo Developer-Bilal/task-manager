@@ -15,17 +15,18 @@ datasource db {
 
 model User {
   id       Int     @id @default(autoincrement())
-  name     String
-  email    String
+  name     String?
+  email    String  @unique
   password String
   avatar   String?
   tasks    Task[]
 }
 
 model Task {
-  id     Int    @id @default(autoincrement())
-  text   String
-  status String
+  id       Int    @id @default(autoincrement())
+  text     String
+  status   String
+  priority String
 
   owner   User? @relation(fields: [ownerId], references: [id])
   ownerId Int?

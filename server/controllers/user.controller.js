@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -31,6 +32,7 @@ export const createUser = async (req, res) => {
   }
 };
 
+// PATCH User
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,6 +55,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
+// DElETE User
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -64,6 +67,43 @@ export const deleteUser = async (req, res) => {
     res.status(200).json({ message: "Deleted Successfully", user });
   } catch (error) {
     console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
+
+// Register User
+export const register = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password,
+      },
+    });
+    res.status(200).json({ message: "Registered", user });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+// Login User
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    const isPass = password == user.password;
+    if (user && isPass) {
+      const token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.status(200).json({ message: "Logged In", user, token: token });
+    } else res.status(404).json({ message: "Invalid Credentials" });
+  } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
