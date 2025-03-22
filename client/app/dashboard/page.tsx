@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,84 +9,79 @@ import {
   TableRow,
   TableFooter,
 } from "@/components/ui/table";
+import { HiMiniPencilSquare } from "react-icons/hi2";
+import { MdDeleteForever } from "react-icons/md";
 
-const invoices = [
+const data = [
   {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+    id: 1,
+    Text: "first Task",
+    Status: "Pending",
+    Priority: "High",
+    Owner: "Bilal",
+    DueDate: "20-2-2024",
   },
   {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
+    id: 2,
+    Text: "Second Task",
+    Status: "Pending",
+    Priority: "High",
+    Owner: "Bilal",
+    DueDate: "20-2-2024",
   },
   {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
+    id: 3,
+    Text: "Third Task",
+    Status: "Pending",
+    Priority: "High",
+    Owner: "Bilal",
+    DueDate: "20-2-2024",
   },
 ];
 
 const Dashboard = () => {
   return (
-    <div>
-      <div>Dashboard</div>
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+    <div className="p-8 max-sm:p-4">
+      <div className="flex items-center justify-between">
+        <div className="text-xl max-sm:hidden">My Tasks</div>
+        <Button className="cursor-pointer">Add task</Button>
+      </div>
+      <Table className="my-4">
+        <TableCaption>A list of your recent tasks.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
+            <TableHead className="w-[50px]">No</TableHead>
+            <TableHead>Text</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead>Priority</TableHead>
+            <TableHead>Due Date</TableHead>
+            <TableHead>edit</TableHead>
+            <TableHead>Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">
-                {invoice.totalAmount}
+          {data.map((d, index) => (
+            <TableRow key={d.id}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell>{d.Text}</TableCell>
+              <TableCell>{d.Status}</TableCell>
+              <TableCell>{d.Priority}</TableCell>
+              <TableCell>{d.DueDate}</TableCell>
+              <TableCell>
+                <HiMiniPencilSquare className="size-5 cursor-pointer text-blue-600 hover:text-blue-400" />
+              </TableCell>
+              <TableCell>
+                <MdDeleteForever className="size-5 cursor-pointer text-red-600 hover:text-red-400" />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
+        {/* <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
             <TableCell className="text-right">$2,500.00</TableCell>
           </TableRow>
-        </TableFooter>
+        </TableFooter> */}
       </Table>
     </div>
   );

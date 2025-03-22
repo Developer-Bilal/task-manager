@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 // import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "#" },
+  { name: "Dashboard", href: "/dashboard" },
   { name: "About us", href: "#" },
   { name: "Contact us", href: "#" },
 ];
@@ -33,7 +33,7 @@ export default function Home() {
           >
             <div className="flex lg:flex-1">
               <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+                <span className="sr-only">Bilal Channa</span>
                 <div>Manage.</div>
                 {/* <img
                   alt=""
