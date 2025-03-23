@@ -82,7 +82,7 @@ export default function Register() {
           </form>
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Don't have an account?
+            Don&apos;t have an account?
             <a
               href="/register"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
