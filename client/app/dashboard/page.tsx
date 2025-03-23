@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
+  // TableFooter,
 } from "@/components/ui/table";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { MdDeleteForever } from "react-icons/md";
