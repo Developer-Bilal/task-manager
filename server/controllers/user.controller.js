@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -16,16 +17,23 @@ export const getUsers = async (req, res) => {
 // POST User
 export const createUser = async (req, res) => {
   try {
+    // get data from request object
     const { name, email, password, avatar } = req.body;
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // create user in database
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
         avatar,
       },
     });
-    res.status(200).json({ message: "Created Successfully", user });
+    // send response
+    res
+      .status(200)
+      .json({ message: "Created Successfully", user: { name, email, avatar } });
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,10 +11,13 @@ import {
   TableRow,
   // TableFooter,
 } from "@/components/ui/table";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { HiMiniPencilSquare } from "react-icons/hi2";
-import { MdDeleteForever } from "react-icons/md";
+import Link from "next/link";
+import DeleteTask from "@/components/DeleteTask";
 
-const data = [
+let data = [
   {
     id: 1,
     Text: "first Task",
@@ -40,11 +45,23 @@ const data = [
 ];
 
 const Dashboard = () => {
+  const [tasks, setTasks] = useState(data);
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   console.log(tasks);
+  // }, []);
+
   return (
     <div className="p-8 max-sm:p-4">
       <div className="flex items-center justify-between">
         <div className="text-xl max-sm:hidden">My Tasks</div>
-        <Button className="cursor-pointer">Add task</Button>
+        <Button
+          className="cursor-pointer"
+          onClick={() => router.push("/dashboard/addTask")}
+        >
+          Add task
+        </Button>
       </div>
       <Table className="my-4">
         <TableCaption>A list of your recent tasks.</TableCaption>
@@ -68,10 +85,12 @@ const Dashboard = () => {
               <TableCell>{d.Priority}</TableCell>
               <TableCell>{d.DueDate}</TableCell>
               <TableCell>
-                <HiMiniPencilSquare className="size-5 cursor-pointer text-blue-600 hover:text-blue-400" />
+                <Link href={`/dashboard/updateTask/${d.id}`}>
+                  <HiMiniPencilSquare className="size-5 cursor-pointer text-blue-600 hover:text-blue-400" />
+                </Link>
               </TableCell>
               <TableCell>
-                <MdDeleteForever className="size-5 cursor-pointer text-red-600 hover:text-red-400" />
+                <DeleteTask taskId={d.id} />
               </TableCell>
             </TableRow>
           ))}
