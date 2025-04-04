@@ -8,6 +8,7 @@ const AddTask = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Form Submitted");
+    console.log("Task Added");
   };
   return (
     <div className="p-8 max-sm:p-4 ">
