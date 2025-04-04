@@ -17,7 +17,7 @@ const navigation = [
 export default function Home() {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  let session = true;
+  const session = true;
 
   if (!session) {
     redirect("/register");
