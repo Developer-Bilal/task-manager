@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Swal from "sweetalert2";
 
 const UpdateTask = () => {
   const [text, setText] = useState("");
@@ -53,6 +54,11 @@ const UpdateTask = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+      });
+      Swal.fire({
+        title: "User Updated Successfully!",
+        icon: "success",
+        draggable: true,
       });
     } catch (error: any) {
       console.log({ message: "Request Failed!", error: error.message });

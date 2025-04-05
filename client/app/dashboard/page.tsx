@@ -9,7 +9,6 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  // TableFooter,
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,7 +32,7 @@ const Dashboard = () => {
     async function getData() {
       try {
         const res = await fetch(`http://localhost:5000/api/v1/tasks/`, {
-          cache: "no-store",
+          cache: "no-cache",
         });
         const data = await res.json();
         setTasks(data);
@@ -43,7 +42,7 @@ const Dashboard = () => {
       }
     }
     getData();
-  }, []);
+  }, [tasks]);
 
   return (
     <div className="p-8 max-sm:p-4">
@@ -88,12 +87,6 @@ const Dashboard = () => {
             </TableRow>
           ))}
         </TableBody>
-        {/* <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter> */}
       </Table>
     </div>
   );

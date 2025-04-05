@@ -4,6 +4,7 @@ import { DatePickerDemo } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const AddTask = () => {
   const [tasks, setTasks] = useState([]);
@@ -11,6 +12,7 @@ const AddTask = () => {
   const [priority, setPriority] = useState("");
   const [status, setStatus] = useState("");
   const [date, setDate] = useState<Date>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -30,7 +32,7 @@ const AddTask = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const data = {
       id: tasks.length + 1,
       text,
@@ -47,10 +49,15 @@ const AddTask = () => {
         },
         body: JSON.stringify(data),
       });
+      Swal.fire({
+        title: "User Added Successfully!",
+        icon: "success",
+        draggable: true,
+      });
     } catch (error: any) {
       console.log({ message: "Request Failed!", error: error.message });
     }
-
+    setIsLoading(false);
     redirect("/dashboard");
   };
   return (
@@ -101,7 +108,13 @@ const AddTask = () => {
             <DatePickerDemo date={date} setDate={setDate} />
           </div>
         </div>
-        <Button className="w-fit">Add Task</Button>
+        {!isLoading ? (
+          <Button className="w-fit">Add Task</Button>
+        ) : (
+          <Button className="w-fit" disabled>
+            Add Task
+          </Button>
+        )}
       </form>
     </div>
   );
