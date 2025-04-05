@@ -1,12 +1,17 @@
 import { MdDeleteForever } from "react-icons/md";
 
 const DeleteTask = (props: any) => {
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // get id from props
     // send delete request to the backend
     // I can use alert here
-    console.log(props.taskId);
-    console.log("Task deleted");
+    try {
+      await fetch(`http://localhost:5000/api/v1/tasks/${props.taskId}`, {
+        method: "DELETE",
+      });
+    } catch (error: any) {
+      console.log({ message: "Request Failed!", error: error.message });
+    }
   };
   return (
     <>

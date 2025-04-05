@@ -2,13 +2,56 @@
 
 import { DatePickerDemo } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
-import { FormEvent } from "react";
+import { redirect } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
 
 const AddTask = () => {
-  const handleSubmit = (e: FormEvent) => {
+  const [tasks, setTasks] = useState([]);
+  const [text, setText] = useState("");
+  const [priority, setPriority] = useState("");
+  const [status, setStatus] = useState("");
+  const [date, setDate] = useState<Date>();
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await fetch(`http://localhost:5000/api/v1/tasks/`, {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        setTasks(data);
+        console.log(data);
+      } catch (error: any) {
+        console.log({ message: error.message });
+      }
+    }
+    getData();
+  }, []);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form Submitted");
-    console.log("Task Added");
+
+    const data = {
+      id: tasks.length + 1,
+      text,
+      status,
+      priority,
+      ownerId: 1,
+    };
+
+    try {
+      await fetch(`http://localhost:5000/api/v1/tasks/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error: any) {
+      console.log({ message: "Request Failed!", error: error.message });
+    }
+
+    redirect("/dashboard");
   };
   return (
     <div className="p-8 max-sm:p-4 ">
@@ -22,11 +65,17 @@ const AddTask = () => {
           <input
             type="text"
             className="p-2 border-2 border-gray-500 rounded w-full"
+            onChange={(e) => setText(e.target.value)}
+            required
           />
         </div>
         <div>
           <div>Priority</div>
-          <select className="p-2 border-2 border-gray-500 rounded w-full">
+          <select
+            className="p-2 border-2 border-gray-500 rounded w-full"
+            onChange={(e) => setPriority(e.target.value)}
+            required
+          >
             <option value="">Please select</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -35,7 +84,11 @@ const AddTask = () => {
         </div>
         <div>
           <div>Status</div>
-          <select className="p-2 border-2 border-gray-500 rounded w-full">
+          <select
+            className="p-2 border-2 border-gray-500 rounded w-full"
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          >
             <option value="">Please select</option>
             <option value="started">Started</option>
             <option value="pending">Pending</option>
@@ -45,7 +98,7 @@ const AddTask = () => {
         <div>
           <div>Due Date</div>
           <div className="w-full">
-            <DatePickerDemo />
+            <DatePickerDemo date={date} setDate={setDate} />
           </div>
         </div>
         <Button className="w-fit">Add Task</Button>

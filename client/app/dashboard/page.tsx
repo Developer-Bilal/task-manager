@@ -17,40 +17,33 @@ import { HiMiniPencilSquare } from "react-icons/hi2";
 import Link from "next/link";
 import DeleteTask from "@/components/DeleteTask";
 
-let data = [
-  {
-    id: 1,
-    Text: "first Task",
-    Status: "Pending",
-    Priority: "High",
-    Owner: "Bilal",
-    DueDate: "20-2-2024",
-  },
-  {
-    id: 2,
-    Text: "Second Task",
-    Status: "Pending",
-    Priority: "High",
-    Owner: "Bilal",
-    DueDate: "20-2-2024",
-  },
-  {
-    id: 3,
-    Text: "Third Task",
-    Status: "Pending",
-    Priority: "High",
-    Owner: "Bilal",
-    DueDate: "20-2-2024",
-  },
-];
+interface Task {
+  id: number;
+  text: string;
+  status: string;
+  priority: string;
+  owner: string;
+}
 
 const Dashboard = () => {
-  const [tasks, setTasks] = useState(data);
+  const [tasks, setTasks] = useState([]);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log(tasks);
-  // }, []);
+  useEffect(() => {
+    async function getData() {
+      try {
+        const res = await fetch(`http://localhost:5000/api/v1/tasks/`, {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        setTasks(data);
+        console.log(data);
+      } catch (error: any) {
+        console.log({ message: error.message });
+      }
+    }
+    getData();
+  }, []);
 
   return (
     <div className="p-8 max-sm:p-4">
@@ -77,13 +70,13 @@ const Dashboard = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((d, index) => (
+          {tasks.map((d: Task, index) => (
             <TableRow key={d.id}>
               <TableCell>{index + 1}</TableCell>
-              <TableCell>{d.Text}</TableCell>
-              <TableCell>{d.Status}</TableCell>
-              <TableCell>{d.Priority}</TableCell>
-              <TableCell>{d.DueDate}</TableCell>
+              <TableCell>{d.text}</TableCell>
+              <TableCell>{d.status}</TableCell>
+              <TableCell>{d.priority}</TableCell>
+              <TableCell>{d.text}</TableCell>
               <TableCell>
                 <Link href={`/dashboard/updateTask/${d.id}`}>
                   <HiMiniPencilSquare className="size-5 cursor-pointer text-blue-600 hover:text-blue-400" />
