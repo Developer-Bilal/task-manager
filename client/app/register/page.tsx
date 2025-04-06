@@ -1,4 +1,39 @@
+"use client";
+
+import { redirect } from "next/navigation";
+import { FormEvent, useState } from "react";
+import Swal from "sweetalert2";
+
 export default function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    console.log("submitted", { email, password });
+
+    const data = { email, password };
+    try {
+      const res = await fetch(`http://localhost:5000/api/v1/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const user = await res.json();
+      Swal.fire({
+        title: "Registered! 💯",
+        icon: "success",
+        draggable: true,
+      });
+      console.log(user);
+    } catch (error: any) {
+      console.log({ message: "Request Failed", error: error.message });
+    }
+    redirect("/login");
+  };
+
   return (
     <>
       {/*
@@ -22,7 +57,7 @@ export default function Register() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -35,6 +70,8 @@ export default function Register() {
                   id="email"
                   name="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -64,6 +101,8 @@ export default function Register() {
                   id="password"
                   name="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"

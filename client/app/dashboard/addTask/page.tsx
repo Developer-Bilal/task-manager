@@ -50,7 +50,7 @@ const AddTask = () => {
         body: JSON.stringify(data),
       });
       Swal.fire({
-        title: "User Added Successfully!",
+        title: "Task Added Successfully!",
         icon: "success",
         draggable: true,
       });

@@ -1,4 +1,41 @@
-export default function Register() {
+"use client";
+
+import { redirect } from "next/navigation";
+import { FormEvent, useState } from "react";
+import Swal from "sweetalert2";
+
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    console.log("submitted", { email, password });
+
+    const data = { email, password };
+    try {
+      const res = await fetch(`http://localhost:5000/api/v1/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const user = await res.json();
+      Swal.fire({
+        title: "Logged In! 🔥",
+        icon: "success",
+        draggable: true,
+      });
+      console.log(user);
+      localStorage.setItem("token", user.token);
+    } catch (error: any) {
+      localStorage.setItem("token", "");
+      console.log({ message: "Request Failed", error: error.message });
+    }
+    redirect("/dashboard");
+  };
+
   return (
     <>
       {/*
@@ -22,7 +59,7 @@ export default function Register() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -35,6 +72,8 @@ export default function Register() {
                   id="email"
                   name="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -64,6 +103,8 @@ export default function Register() {
                   id="password"
                   name="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -82,7 +123,7 @@ export default function Register() {
           </form>
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
-            Don&apos;t have an account?
+            Don&apos;t have an account?{" "}
             <a
               href="/register"
               className="font-semibold text-indigo-600 hover:text-indigo-500"

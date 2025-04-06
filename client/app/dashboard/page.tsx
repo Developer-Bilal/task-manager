@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import Link from "next/link";
@@ -29,6 +29,14 @@ const Dashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (!token || token === undefined) {
+      redirect("/login");
+    }
+  }, []);
+
+  useEffect(() => {
     async function getData() {
       try {
         const res = await fetch(`http://localhost:5000/api/v1/tasks/`, {
@@ -42,7 +50,7 @@ const Dashboard = () => {
       }
     }
     getData();
-  }, [tasks]);
+  }, []);
 
   return (
     <div className="p-8 max-sm:p-4">
