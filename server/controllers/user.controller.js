@@ -7,10 +7,32 @@ const prisma = new PrismaClient();
 export const getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
+  }
+};
+
+// GET User
+export const getUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with id:${id} does not exists` });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -31,12 +53,12 @@ export const createUser = async (req, res) => {
       },
     });
     // send response
-    res
+    return res
       .status(200)
       .json({ message: "Created Successfully", user: { name, email, avatar } });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -56,10 +78,10 @@ export const updateUser = async (req, res) => {
         avatar,
       },
     });
-    res.status(200).json({ message: "Updated Successfully", user });
+    return res.status(200).json({ message: "Updated Successfully", user });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -72,10 +94,10 @@ export const deleteUser = async (req, res) => {
         id: Number(id),
       },
     });
-    res.status(200).json({ message: "Deleted Successfully", user });
+    return res.status(200).json({ message: "Deleted Successfully", user });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -89,9 +111,9 @@ export const register = async (req, res) => {
         password,
       },
     });
-    res.status(200).json({ message: "Registered", user });
+    return res.status(200).json({ message: "Registered", user });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
 
@@ -109,9 +131,9 @@ export const login = async (req, res) => {
       const token = jwt.sign({ email: email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      res.status(200).json({ message: "Logged In", user, token: token });
-    } else res.status(404).json({ message: "Invalid Credentials" });
+      return res.status(200).json({ message: "Logged In", user, token: token });
+    } else return res.status(404).json({ message: "Invalid Credentials" });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };

@@ -2,6 +2,7 @@ import express from "express";
 import {
   createUser,
   deleteUser,
+  getUser,
   getUsers,
   login,
   register,
@@ -15,6 +16,9 @@ router.get("/", getUsers).post("/", createUser);
 
 router.post("/register", register).post("/login", login);
 
-router.patch("/:id", auth, updateUser).delete("/:id", auth, deleteUser);
+router
+  .get("/:id", auth, getUser)
+  .patch("/:id", auth, updateUser)
+  .delete("/:id", auth, deleteUser);
 
 export default router;
