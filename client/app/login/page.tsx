@@ -1,16 +1,19 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { authContext } from "@/context/authContext";
+import { redirect, useRouter } from "next/navigation";
+import { FormEvent, useContext, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const { setToken } = useContext(authContext);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("submitted", { email, password });
 
     const data = { email, password };
     try {
@@ -21,19 +24,28 @@ export default function Login() {
         },
         body: JSON.stringify(data),
       });
+
       const user = await res.json();
-      Swal.fire({
-        title: "Logged In! 🔥",
-        icon: "success",
-        draggable: true,
-      });
-      console.log(user);
-      localStorage.setItem("token", user.token);
+      if (user.token) {
+        setToken(user.token);
+        localStorage.setItem("token", user.token);
+        Swal.fire({
+          title: "Logged In! 🔥",
+          icon: "success",
+          draggable: true,
+        });
+        router.push("/dashboard");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Invalid Credentials!",
+        });
+      }
     } catch (error: any) {
-      localStorage.setItem("token", "");
+      // localStorage.setItem("token", "");
       console.log({ message: "Request Failed", error: error.message });
     }
-    redirect("/dashboard");
   };
 
   return (

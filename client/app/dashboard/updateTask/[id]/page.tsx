@@ -77,7 +77,7 @@ const UpdateTask = () => {
           <div>Text</div>
           <input
             type="text"
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
@@ -86,7 +86,7 @@ const UpdateTask = () => {
         <div>
           <div>Priority</div>
           <select
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
             required
@@ -100,7 +100,7 @@ const UpdateTask = () => {
         <div>
           <div>Status</div>
           <select
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             required

@@ -71,7 +71,7 @@ const AddTask = () => {
           <div>Text</div>
           <input
             type="text"
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             onChange={(e) => setText(e.target.value)}
             required
           />
@@ -79,7 +79,7 @@ const AddTask = () => {
         <div>
           <div>Priority</div>
           <select
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             onChange={(e) => setPriority(e.target.value)}
             required
           >
@@ -92,7 +92,7 @@ const AddTask = () => {
         <div>
           <div>Status</div>
           <select
-            className="p-2 border-2 border-gray-500 rounded w-full"
+            className="p-2 border border-gray-500 rounded w-full"
             onChange={(e) => setStatus(e.target.value)}
             required
           >

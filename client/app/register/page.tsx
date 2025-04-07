@@ -1,7 +1,7 @@
 "use client";
 
 import { redirect } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Register() {
