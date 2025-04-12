@@ -43,7 +43,7 @@ const Dashboard = () => {
       }
     }
     getData();
-  }, []);
+  }, [tasks]);
 
   return (
     <div className="p-8 max-sm:p-4">

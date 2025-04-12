@@ -1,8 +1,3 @@
-// "use client";
-
-import { redirect } from "next/navigation";
-//
-
 // import { useState } from "react";
 // import { Dialog, DialogPanel } from "@headlessui/react";
 // import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -16,12 +11,6 @@ const navigation = [
 
 export default function Home() {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const session = true;
-
-  if (!session) {
-    redirect("/register");
-  }
 
   return (
     <>
