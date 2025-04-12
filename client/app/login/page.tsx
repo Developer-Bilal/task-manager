@@ -1,51 +1,49 @@
 "use client";
 
 import { authContext } from "@/context/authContext";
-import { redirect, useRouter } from "next/navigation";
 import { FormEvent, useContext, useState } from "react";
-import Swal from "sweetalert2";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
-  const { setToken } = useContext(authContext);
+  const { login } = useContext(authContext);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const data = { email, password };
-    try {
-      const res = await fetch(`http://localhost:5000/api/v1/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+    // call login function and pass data in params
+    login(email, password);
+    // try {
+    //   const res = await fetch(`http://localhost:5000/api/v1/users/login`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
 
-      const user = await res.json();
-      if (user.token) {
-        setToken(user.token);
-        localStorage.setItem("token", user.token);
-        Swal.fire({
-          title: "Logged In! 🔥",
-          icon: "success",
-          draggable: true,
-        });
-        router.push("/dashboard");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Invalid Credentials!",
-        });
-      }
-    } catch (error: any) {
-      // localStorage.setItem("token", "");
-      console.log({ message: "Request Failed", error: error.message });
-    }
+    //   const user = await res.json();
+    //   if (user.token) {
+    //     setToken(user.token);
+    //     localStorage.setItem("token", user.token);
+    //     Swal.fire({
+    //       title: "Logged In! 🔥",
+    //       icon: "success",
+    //       draggable: true,
+    //     });
+    //     router.push("/dashboard");
+    //   } else {
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Oops...",
+    //       text: "Invalid Credentials!",
+    //     });
+    //   }
+    // } catch (error: any) {
+    //   // localStorage.setItem("token", "");
+    //   console.log({ message: "Request Failed", error: error.message });
+    // }
   };
 
   return (

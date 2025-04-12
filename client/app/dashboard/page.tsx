@@ -10,12 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { redirect, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import Link from "next/link";
 import DeleteTask from "@/components/DeleteTask";
-import { authContext } from "@/context/authContext";
 
 interface Task {
   id: number;
@@ -29,20 +28,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const router = useRouter();
 
-  const { token } = useContext(authContext);
-
-  if (!token || token === "" || token === undefined || token === null) {
-    redirect("/login");
-  }
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   console.log(token);
-  //   if (!token || token === undefined) {
-  //     redirect("/login");
-  //   }
-  // }, []);
-
+  // need to change
   useEffect(() => {
     async function getData() {
       try {
