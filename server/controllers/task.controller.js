@@ -8,7 +8,7 @@ export const getTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -24,22 +24,20 @@ export const getTask = async (req, res) => {
     res.status(200).json(task);
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 // POST Task
 export const createTask = async (req, res) => {
   try {
-    const { text, status, priority, ownerId } = req.body;
+    const { text, ownerId } = req.body;
     const task = await prisma.task.create({
       data: {
         text,
-        status,
-        priority,
         owner: {
           connect: {
-            id: ownerId,
+            id: Number(ownerId),
           },
         },
       },
@@ -47,7 +45,7 @@ export const createTask = async (req, res) => {
     res.status(200).json({ message: "Created Successfully", task });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -55,7 +53,7 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { text, status, priority, ownerId } = req.body;
+    const { text, status, priority } = req.body;
     const task = await prisma.task.update({
       where: {
         id: Number(id),
@@ -64,17 +62,12 @@ export const updateTask = async (req, res) => {
         text,
         status,
         priority,
-        owner: {
-          connect: {
-            id: ownerId,
-          },
-        },
       },
     });
     res.status(200).json({ message: "Updated Successfully", task });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -90,6 +83,6 @@ export const deleteTask = async (req, res) => {
     res.status(200).json({ message: "Deleted Successfully", task });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };

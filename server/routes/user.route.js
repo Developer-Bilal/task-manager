@@ -17,7 +17,7 @@ router.get("/", getUsers).post("/", createUser);
 router.post("/register", register).post("/login", login);
 
 router
-  .get("/:id", auth, getUser)
+  .get("/:id", getUser)
   .patch("/:id", auth, updateUser)
   .delete("/:id", auth, deleteUser);
 

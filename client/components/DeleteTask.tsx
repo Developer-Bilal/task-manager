@@ -1,3 +1,5 @@
+"use client";
+
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 
