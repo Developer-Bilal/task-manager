@@ -15,7 +15,7 @@ export const getUsers = async (req, res) => {
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -43,7 +43,7 @@ export const getUser = async (req, res) => {
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -70,7 +70,7 @@ export const createUser = async (req, res) => {
     return res.status(200).json({ message: "Created Successfully", user });
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -88,7 +88,7 @@ export const updateUser = async (req, res) => {
 
     const isPass = await bcrypt.compare(password, user.password);
     if (!isPass) {
-      return res.status(404).json({ message: "Invalid Password" });
+      return res.status(400).json({ message: "Invalid Password" });
     }
     // // initial hashed password
     let hashedPassword = user.password;
@@ -116,7 +116,7 @@ export const updateUser = async (req, res) => {
       .json({ message: "Updated Successfully", updatedUser });
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -135,7 +135,7 @@ export const deleteUser = async (req, res) => {
     return res.status(200).json({ message: "Deleted Successfully", user });
   } catch (error) {
     console.log(error);
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -156,7 +156,7 @@ export const register = async (req, res) => {
     });
     return res.status(200).json({ message: "Registered", user });
   } catch (error) {
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -177,8 +177,8 @@ export const login = async (req, res) => {
       return res
         .status(200)
         .json({ message: "Logged In", email: user.email, token: token });
-    } else return res.status(404).json({ message: "Invalid Credentials" });
+    } else return res.status(400).json({ message: "Invalid Credentials" });
   } catch (error) {
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
