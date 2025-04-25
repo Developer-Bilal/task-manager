@@ -38,6 +38,7 @@ const AddTask = () => {
       text,
       status,
       priority,
+      dueDate: date,
       ownerId: 1,
     };
 
@@ -84,9 +85,9 @@ const AddTask = () => {
             required
           >
             <option value="">Please select</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
           </select>
         </div>
         <div>
@@ -97,9 +98,9 @@ const AddTask = () => {
             required
           >
             <option value="">Please select</option>
-            <option value="started">Started</option>
-            <option value="pending">Pending</option>
-            <option value="completed">Completed</option>
+            <option value="Started">Started</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
           </select>
         </div>
         <div>

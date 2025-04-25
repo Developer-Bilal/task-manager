@@ -2,8 +2,11 @@
 
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const DeleteTask = (props: any) => {
+  const router = useRouter();
+
   const handleDelete = async () => {
     // get id from props
     // send delete request to the backend
@@ -32,6 +35,8 @@ const DeleteTask = (props: any) => {
               text: "Your task has been deleted.",
               icon: "success",
             });
+
+            router.refresh();
           })
           .catch((error) => {
             // if request fails console log message

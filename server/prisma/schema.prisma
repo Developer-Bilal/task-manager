@@ -26,10 +26,12 @@ model User {
 }
 
 model Task {
-  id        Int      @id @default(autoincrement())
-  text      String
-  status    Status   @default(Pending)
-  priority  Priority @default(Medium)
+  id       Int      @id @default(autoincrement())
+  text     String
+  status   Status   @default(Pending)
+  priority Priority @default(Medium)
+
+  dueDate   DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -31,10 +31,13 @@ export const getTask = async (req, res) => {
 // POST Task
 export const createTask = async (req, res) => {
   try {
-    const { text, ownerId } = req.body;
+    const { text, status, priority, dueDate, ownerId } = req.body;
     const task = await prisma.task.create({
       data: {
         text,
+        status,
+        priority,
+        dueDate,
         owner: {
           connect: {
             id: Number(ownerId),
@@ -53,7 +56,7 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { text, status, priority } = req.body;
+    const { text, status, priority, dueDate } = req.body;
     const task = await prisma.task.update({
       where: {
         id: Number(id),
@@ -62,6 +65,7 @@ export const updateTask = async (req, res) => {
         text,
         status,
         priority,
+        dueDate,
       },
     });
     res.status(200).json({ message: "Updated Successfully", task });
