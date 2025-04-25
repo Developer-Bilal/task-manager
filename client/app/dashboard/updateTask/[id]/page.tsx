@@ -119,7 +119,7 @@ const UpdateTask = () => {
             <DatePickerDemo date={date} setDate={setDate} />
           </div>
         </div>
-        <Button className="w-fit">Update Task</Button>
+        <Button className="w-fit cursor-pointer">Update Task</Button>
       </form>
     </div>
   );

@@ -6,44 +6,17 @@ import { FormEvent, useContext, useState } from "react";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsloading] = useState(false);
 
   const { login } = useContext(authContext);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsloading(true);
 
     // call login function and pass data in params
-    login(email, password);
-    // try {
-    //   const res = await fetch(`http://localhost:5000/api/v1/users/login`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   const user = await res.json();
-    //   if (user.token) {
-    //     setToken(user.token);
-    //     localStorage.setItem("token", user.token);
-    //     Swal.fire({
-    //       title: "Logged In! 🔥",
-    //       icon: "success",
-    //       draggable: true,
-    //     });
-    //     router.push("/dashboard");
-    //   } else {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Oops...",
-    //       text: "Invalid Credentials!",
-    //     });
-    //   }
-    // } catch (error: any) {
-    //   // localStorage.setItem("token", "");
-    //   console.log({ message: "Request Failed", error: error.message });
-    // }
+    await login(email, password);
+    setIsloading(false);
   };
 
   return (
@@ -123,12 +96,28 @@ export default function Login() {
             </div>
 
             <div>
-              <button
+              {isLoading ? (
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  disabled
+                >
+                  Log in
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+                >
+                  Log in
+                </button>
+              )}
+              {/* <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Log in
-              </button>
+              </button> */}
             </div>
           </form>
 

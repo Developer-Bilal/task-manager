@@ -7,10 +7,11 @@ import Swal from "sweetalert2";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsloading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("submitted", { email, password });
+    setIsloading(true);
 
     const data = { email, password };
     try {
@@ -27,10 +28,10 @@ export default function Register() {
         icon: "success",
         draggable: true,
       });
-      console.log(user);
     } catch (error: any) {
       console.log({ message: "Request Failed", error: error.message });
     }
+    setIsloading(false);
     redirect("/login");
   };
 
@@ -111,12 +112,22 @@ export default function Register() {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Create Account
-              </button>
+              {isLoading ? (
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  disabled
+                >
+                  Create Account
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+                >
+                  Create Account
+                </button>
+              )}
             </div>
           </form>
 

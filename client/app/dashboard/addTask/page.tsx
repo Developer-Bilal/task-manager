@@ -110,7 +110,7 @@ const AddTask = () => {
           </div>
         </div>
         {!isLoading ? (
-          <Button className="w-fit">Add Task</Button>
+          <Button className="w-fit cursor-pointer">Add Task</Button>
         ) : (
           <Button className="w-fit" disabled>
             Add Task
