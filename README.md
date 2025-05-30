@@ -24,7 +24,7 @@ A fullstack **Task Manager** application built with **Next.js**, **Node.js**, **
 | Node.js      | Backend runtime                  |
 | Prisma       | Type-safe ORM for PostgreSQL     |
 | PostgreSQL   | Relational database              |
-| Tailwind CSS | (Optional) Styling (if used)     |
+| Tailwind CSS | Styling                          |
 | JWT/Auth     | Secure authentication            |
 
 ## 📧 Contact
